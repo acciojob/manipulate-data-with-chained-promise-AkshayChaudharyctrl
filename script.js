@@ -1,15 +1,29 @@
 //your JS code here. If required.
- const table = document.querySelector('table');
- const lastRow = document.createElement('tr');
- const prices = document.querySelectorAll('[data-ns-test=price]');
- let sum = 0;
- for(let i = 0; i < prices.length; i++) {
-  sum += parseInt(prices[i].textContent);
- }
- const child = document.createElement("td");
- child.setAttribute('data-ns-test', 'grandTotal');
+ const arr = [1, 2, 3, 4];
+function promise(arr, time) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(arr);
+    }, time);
+  });
+}
+const op = document.getElementById("output");
+promise(arr, 3000)
+  .then((res) => {
+    const evenArr = res.filter((num) => {
+      return num % 2 === 0;
+    });
+    return promise(evenArr, 1000);
+  })
+  .then((res) => {
 
+    op.innerText = res;
+    const multiplyBy2 = res.map((num) => {
+      return num * 2;
+    });
 
- child.textContent = sum;
- lastRow.appendChild(child);
- table.appendChild(lastRow);
+    return promise(multiplyBy2, 2000);
+  })
+  .then((res) => {
+    op.innerText = res;
+  });
